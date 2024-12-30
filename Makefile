@@ -25,9 +25,11 @@ clean:
 	find . -type f -name "*.pyc" -delete
 
 run: check-python install
+	pipenv run pip install -e .
 	pipenv run streamlit run src/datacompy_web_ui/ui/app.py
 
 run-network: check-python install
+	pipenv run pip install -e .
 	pipenv run streamlit run src/datacompy_web_ui/ui/app.py --server.address 0.0.0.0
 
 venv-install: check-python
