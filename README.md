@@ -1,4 +1,4 @@
-# DataCompy Web UI
+# Datacompy Web UI
 
 A web interface for comparing CSV files using DataCompy. Built with Streamlit.
 
