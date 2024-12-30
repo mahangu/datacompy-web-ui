@@ -1,1 +1,39 @@
- 
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datacompy-web-ui"
+version = "0.1.0"
+description = "A web-based UI for DataCompy CSV comparison"
+authors = [
+    { name = "Mahangu Weerasinghe", email = "mahangu@gmail.com" }
+]
+readme = "README.md"
+license = { text = "GPL-2.0" }
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "streamlit>=1.41.0",
+    "datacompy>=0.9.1",
+    "pandas>=2.1.1",
+    "plotly>=5.20.0",
+    "matplotlib>=3.8.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/mahangu/datacompy-web-ui"
+
+[project.scripts]
+datacompy-web-ui = "datacompy_web_ui.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"] 
