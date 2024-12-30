@@ -2,6 +2,8 @@
 
 A web interface for comparing CSV files using DataCompy. Built with Streamlit.
 
+![DataCompy Web UI Screenshot](docs/images/datacompy-web-ui-screenshot.png)
+
 ## Features
 
 - Upload and compare two CSV files
