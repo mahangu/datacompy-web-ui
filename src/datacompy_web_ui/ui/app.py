@@ -27,7 +27,7 @@ def setup_page() -> None:
 
 def render_header():
     """Render the app header and description."""
-    st.title("📊 CSV File Comparison Tool")
+    st.title("📊 Datacompy Web UI")
     st.markdown("""
     Compare two CSV files and analyze their differences using DataCompy.
     Upload your files below and select the columns to use as join keys.

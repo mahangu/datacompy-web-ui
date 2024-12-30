@@ -18,7 +18,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "datacompy_web_ui=datacompy_web_ui.main:main",
+            "datacompy-web-ui=datacompy_web_ui.main:main",
         ],
     },
     python_requires=">=3.11",
