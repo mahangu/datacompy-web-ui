@@ -7,7 +7,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     package_data={
-        "datacompy_web_ui": ["ui/styles/*.css"],
+        "datacompy_web_ui": ["ui/*.py", "ui/styles/*.css"],
     },
     install_requires=[
         "streamlit>=1.41.0",
