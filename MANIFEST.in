@@ -1,4 +1,5 @@
 recursive-include src/datacompy_web_ui/ui *.py
+recursive-include src/datacompy_web_ui/core *.py
 recursive-include src/datacompy_web_ui/ui/styles *.css
 global-exclude *.pyc
 include README.md
