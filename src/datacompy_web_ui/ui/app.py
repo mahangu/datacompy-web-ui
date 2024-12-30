@@ -33,6 +33,10 @@ def render_header():
     Upload your files below and select the columns to use as join keys.
     """)
 
+def calculate_height(df, min_height=200, max_height=600, row_height=35):
+    """Calculate a reasonable height for a dataframe display."""
+    return min(max(min_height, (len(df) + 1) * row_height), max_height)
+
 def run_app():
     """Run the Streamlit application."""
     setup_page()
@@ -66,10 +70,11 @@ def run_app():
             - Total Columns: {comparison.df1.shape[1]}
             """)
             with st.expander("📋 Column Details", expanded=True):
+                column_info = comparison.get_column_info(comparison.df1)
                 st.dataframe(
-                    comparison.get_column_info(comparison.df1),
+                    column_info,
                     use_container_width=True,
-                    height=400
+                    height=calculate_height(column_info)
                 )
                 
         with col2:
@@ -79,10 +84,11 @@ def run_app():
             - Total Columns: {comparison.df2.shape[1]}
             """)
             with st.expander("📋 Column Details", expanded=True):
+                column_info = comparison.get_column_info(comparison.df2)
                 st.dataframe(
-                    comparison.get_column_info(comparison.df2),
+                    column_info,
                     use_container_width=True,
-                    height=400
+                    height=calculate_height(column_info)
                 )
         
         # Join column selection
@@ -191,7 +197,7 @@ def display_comparison_results(comparison: DataComparisonCore):
             st.markdown("##### Sample of Mismatched Rows")
             sample_df = dc.sample_mismatch()
             if not sample_df.empty:
-                st.dataframe(sample_df, use_container_width=True)
+                st.dataframe(sample_df, use_container_width=True, height=calculate_height(sample_df))
             else:
                 st.success("No mismatches found in the sample")
 
@@ -201,14 +207,14 @@ def display_comparison_results(comparison: DataComparisonCore):
         with col1:
             st.markdown("##### Rows Only in Base")
             if not dc.df1_unq_rows.empty:
-                st.dataframe(dc.df1_unq_rows, use_container_width=True)
+                st.dataframe(dc.df1_unq_rows, use_container_width=True, height=calculate_height(dc.df1_unq_rows))
             else:
                 st.success("No unique rows in Base file")
         
         with col2:
             st.markdown("##### Rows Only in Compare")
             if not dc.df2_unq_rows.empty:
-                st.dataframe(dc.df2_unq_rows, use_container_width=True)
+                st.dataframe(dc.df2_unq_rows, use_container_width=True, height=calculate_height(dc.df2_unq_rows))
             else:
                 st.success("No unique rows in Compare file")
 
@@ -226,7 +232,8 @@ def display_comparison_results(comparison: DataComparisonCore):
                     st.dataframe(
                         value_counts_df,
                         use_container_width=True,
-                        hide_index=True
+                        hide_index=True,
+                        height=calculate_height(value_counts_df, min_height=150, max_height=300)
                     )
                 with col2:
                     st.markdown("Compare File:")
@@ -235,7 +242,8 @@ def display_comparison_results(comparison: DataComparisonCore):
                     st.dataframe(
                         value_counts_df,
                         use_container_width=True,
-                        hide_index=True
+                        hide_index=True,
+                        height=calculate_height(value_counts_df, min_height=150, max_height=300)
                     )
                 st.markdown("---")
 
