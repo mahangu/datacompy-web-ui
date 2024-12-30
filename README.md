@@ -1,6 +1,6 @@
 # Datacompy Web UI
 
-A web interface for comparing CSV files using DataCompy. Built with Streamlit.
+A web interface for comparing CSV files using [Datacompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
 
 ![DataCompy Web UI Screenshot](docs/images/datacompy-web-ui-screenshot.png)
 
