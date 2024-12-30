@@ -9,14 +9,36 @@ A web interface for comparing CSV files using DataCompy. Built with Streamlit.
 - Interactive visualization of differences
 - Detailed column-by-column analysis
 - Row-level comparison with mismatches highlighted
-- Value distribution analysis
 
 ## Installation
 
-### From GitHub
+### Recommended (using pipx)
+
+```bash
+# Install pipx if you haven't already
+brew install pipx
+pipx ensurepath
+
+# Install DataCompy Web UI
+pipx install git+https://github.com/mahangu/datacompy-web-ui.git
+```
+
+### Alternative (using pip)
 
 ```bash
 pip install git+https://github.com/mahangu/datacompy-web-ui.git
+```
+
+### Upgrading
+
+To upgrade to the latest version:
+
+```bash
+# Using pipx (recommended)
+pipx upgrade datacompy-web-ui
+
+# Or force reinstall from git
+pipx install --force git+https://github.com/mahangu/datacompy-web-ui.git
 ```
 
 ### For Development
