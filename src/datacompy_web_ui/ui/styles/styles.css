@@ -1,0 +1,136 @@
+.main { 
+    padding: 2rem;
+    color: #E0E0E0;
+}
+
+.stButton > button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+}
+
+.element-container .stMetric {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: #E0E0E0;
+}
+
+.element-container .stMetric > div { 
+    color: #E0E0E0;
+}
+
+.element-container .metric-label {
+    color: #E0E0E0;
+}
+
+.main h1 {
+    color: #4CAF50;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.main h2 {
+    color: #E0E0E0;
+    margin-top: 2rem;
+    font-weight: 500;
+}
+
+div[data-testid="stDataFrame"] {
+    background-color: transparent;
+    border: none;
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2rem;
+    background-color: transparent;
+}
+
+.stTabs [data-baseweb="tab"] {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    color: #E0E0E0;
+}
+
+.element-container .reportSection {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.element-container .uploadedFile {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+div[data-testid="stDataFrame"] table.dataframe {
+    background-color: transparent;
+    border: none;
+    margin: 1rem 0;
+}
+
+div[data-testid="stDataFrame"] .dataframe thead th {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #E0E0E0;
+    padding: 0.75rem 1rem;
+    border: none;
+}
+
+div[data-testid="stDataFrame"] .dataframe tbody td {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #E0E0E0;
+    padding: 0.75rem 1rem;
+    border: none;
+}
+
+div[data-testid="stDataFrame"] .dataframe tbody tr {
+    margin-bottom: 0.25rem;
+}
+
+div[data-testid="stDataFrame"] > div {
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.streamlit-expanderHeader {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    border: none;
+    margin-bottom: 0.5rem;
+}
+
+.element-container .streamlit-expanderContent {
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem;
+}
+
+.element-container [data-testid="stVerticalBlock"] > div {
+    border: none;
+    background-color: transparent;
+}
+
+.element-container ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.element-container ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.element-container ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.element-container ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+} 

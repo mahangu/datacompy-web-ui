@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = ">=1.41.0"
+datacompy = ">=0.9.1"
+pandas = ">=2.1.1"
+plotly = ">=5.20.0"
+matplotlib = ">=3.8.1"
+
+[dev-packages]
+pytest = ">=7.4.2"
+black = ">=23.11.1"
+flake8 = ">=6.1.1"
+mypy = ">=1.7.1"
+build = ">=1.0.4"
+twine = ">=4.0.3"
+setuptools = ">=69.1.0"
+wheel = ">=0.42.1"
+setuptools-scm = ">=8.0.1"
+
+[requires]
+python_version = "3.11" 

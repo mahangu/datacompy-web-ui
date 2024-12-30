@@ -1,0 +1,3 @@
+include src/datacompy_web_ui/ui/styles/*.css
+include README.md
+include LICENSE 
