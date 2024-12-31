@@ -16,25 +16,53 @@ class DataComparisonCore:
         self.df1: Optional[pd.DataFrame] = None
         self.df2: Optional[pd.DataFrame] = None
         self.comparison: Optional[datacompy.Compare] = None
+        self.sheet_names1 = []
+        self.sheet_names2 = []
 
-    def load_data(self, file1: str, file2: str) -> Tuple[bool, str]:
-        """Load data from CSV files."""
+    def _get_file_type(self, file) -> str:
+        """Determine file type from extension."""
+        name = file.name.lower()
+        if name.endswith('.csv'):
+            return 'csv'
+        elif name.endswith(('.xlsx', '.xls')):
+            return 'excel'
+        else:
+            raise ValueError("Unsupported file type. Please upload CSV or Excel files.")
+
+    def get_sheet_names(self, file) -> List[str]:
+        """Get sheet names from Excel file."""
+        if self._get_file_type(file) == 'excel':
+            return pd.ExcelFile(file).sheet_names
+        return []
+
+    def load_data(self, file1, file2, sheet1: Optional[str] = None, sheet2: Optional[str] = None) -> Tuple[bool, str]:
+        """Load data from uploaded files."""
         try:
-            # Try to read with stricter parsing
-            self.df1 = pd.read_csv(file1, on_bad_lines='error')
-            self.df2 = pd.read_csv(file2, on_bad_lines='error')
-            
-            # Basic validation
-            if self.df1.empty or self.df2.empty:
-                return False, "One or both files are empty"
-            
-            if len(self.df1.columns) < 1 or len(self.df2.columns) < 1:
-                return False, "One or both files have no columns"
-                
+            # Determine file types
+            type1 = self._get_file_type(file1)
+            type2 = self._get_file_type(file2)
+
+            # Load first file
+            if type1 == 'csv':
+                self.df1 = pd.read_csv(file1)
+            else:  # Excel
+                if not sheet1:
+                    self.sheet_names1 = self.get_sheet_names(file1)
+                    return False, "Please select a sheet from the first Excel file"
+                self.df1 = pd.read_excel(file1, sheet_name=sheet1)
+
+            # Load second file
+            if type2 == 'csv':
+                self.df2 = pd.read_csv(file2)
+            else:  # Excel
+                if not sheet2:
+                    self.sheet_names2 = self.get_sheet_names(file2)
+                    return False, "Please select a sheet from the second Excel file"
+                self.df2 = pd.read_excel(file2, sheet_name=sheet2)
+
             return True, ""
+
         except Exception as e:
-            self.df1 = None
-            self.df2 = None
             return False, str(e)
 
     def get_column_info(self, df: pd.DataFrame) -> pd.DataFrame:

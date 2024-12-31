@@ -49,14 +49,22 @@ def run_app():
     
     with col1:
         st.subheader("📄 Base File (File 1)")
-        file1 = st.file_uploader("Choose your base CSV file", type="csv", key="file1")
+        file1 = st.file_uploader("Choose your base file", type=["csv", "xlsx", "xls"], key="file1")
+        sheet1 = None
+        if file1 and file1.name.lower().endswith(('.xlsx', '.xls')):
+            sheet_names = comparison.get_sheet_names(file1)
+            sheet1 = st.selectbox("Select sheet from Base File", sheet_names, key="sheet1")
         
     with col2:
         st.subheader("📄 Compare File (File 2)")
-        file2 = st.file_uploader("Choose your comparison CSV file", type="csv", key="file2")
+        file2 = st.file_uploader("Choose your comparison file", type=["csv", "xlsx", "xls"], key="file2")
+        sheet2 = None
+        if file2 and file2.name.lower().endswith(('.xlsx', '.xls')):
+            sheet_names = comparison.get_sheet_names(file2)
+            sheet2 = st.selectbox("Select sheet from Compare File", sheet_names, key="sheet2")
     
     if file1 and file2:
-        success, error = comparison.load_data(file1, file2)
+        success, error = comparison.load_data(file1, file2, sheet1, sheet2)
         if not success:
             st.error(f"Error loading files: {error}")
             return
