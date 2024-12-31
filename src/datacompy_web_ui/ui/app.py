@@ -29,7 +29,7 @@ def render_header():
     """Render the app header and description."""
     st.title("📊 Datacompy Web UI")
     st.markdown("""
-    Compare two CSV files and analyze their differences using DataCompy.
+    Compare CSV and Excel files and analyze their differences using DataCompy.
     Upload your files below and select the columns to use as join keys.
     """)
 

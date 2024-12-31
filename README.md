@@ -1,12 +1,13 @@
 # Datacompy Web UI
 
-A web interface for comparing CSV files using [Datacompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
+A web interface for comparing CSV and Excel files using [DataCompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
 
 ![DataCompy Web UI Screenshot](docs/images/datacompy-web-ui-screenshot.png)
 
 ## Features
 
-- Upload and compare two CSV files
+- Upload and compare CSV and Excel files
+- Excel sheet selection for multi-sheet workbooks
 - Smart join key recommendations
 - Interactive visualization of differences
 - Detailed column-by-column analysis
