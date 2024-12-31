@@ -4,11 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-streamlit = ">=1.41.0"
-datacompy = ">=0.9.1"
-pandas = ">=2.1.1"
-plotly = ">=5.20.0"
-matplotlib = ">=3.8.1"
+datacompy-web-ui = {editable = true, path = "."}
 
 [dev-packages]
 pytest = ">=7.4.2"
