@@ -1,4 +1,8 @@
-"""Core functionality for Datacompy Web UI."""
+"""Core functionality for Datacompy Web UI.
+
+This module provides the core comparison functionality, wrapping DataCompy
+to provide a high-level interface for file comparison operations.
+"""
 
 from typing import Tuple, Optional, Dict, List
 import datacompy
@@ -10,10 +14,22 @@ logger = logging.getLogger(__name__)
 
 
 class DataComparisonCore:
-    """Core class for handling data comparison operations."""
+    """Core class for handling data comparison operations.
+
+    This class provides a high-level interface for comparing two data files.
+    It handles file loading, comparison configuration, and results analysis.
+    The class supports different file formats through the file handler system.
+
+    Attributes:
+        df1 (Optional[pd.DataFrame]): The first (base) DataFrame for comparison
+        df2 (Optional[pd.DataFrame]): The second (compare) DataFrame for comparison
+        comparison (Optional[datacompy.Compare]): The DataCompy comparison object
+        file1_options (Dict): Options used when loading the first file
+        file2_options (Dict): Options used when loading the second file
+    """
 
     def __init__(self):
-        """Initialize the comparison object."""
+        """Initialize a new comparison instance."""
         self.df1 = None
         self.df2 = None
         self.comparison = None
@@ -21,7 +37,18 @@ class DataComparisonCore:
         self.file2_options = {}
 
     def get_file_options(self, file) -> Dict:
-        """Get options needed for reading this file type."""
+        """Get options needed for reading a specific file type.
+
+        Some file types (like Excel) require additional options (like sheet selection).
+        This method determines what options are available for a given file.
+
+        Args:
+            file: A file-like object to get options for.
+
+        Returns:
+            Dict: A dictionary of options specific to the file type.
+                For example, Excel files return {'sheet_name': ['Sheet1', 'Sheet2']}.
+        """
         try:
             handler = get_handler(file)
             if handler:
@@ -33,7 +60,22 @@ class DataComparisonCore:
             return {}
 
     def load_data(self, files: Dict, options: Dict) -> Tuple[bool, str]:
-        """Load data from uploaded files."""
+        """Load data from uploaded files.
+
+        Loads two files for comparison using appropriate handlers based on file type.
+        Supports different file formats through the file handler system.
+
+        Args:
+            files: Dictionary containing two files:
+                {'file1': first_file, 'file2': second_file}
+            options: Dictionary containing options for each file:
+                {'file1': {...}, 'file2': {...}}
+
+        Returns:
+            Tuple[bool, str]: A tuple containing:
+                - Success flag (True if both files loaded successfully)
+                - Error message (empty string if successful, error details if failed)
+        """
         try:
             # Get handlers for both files
             handler1 = get_handler(files["file1"])
@@ -83,7 +125,23 @@ class DataComparisonCore:
             return False, str(e)
 
     def get_column_info(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Get detailed column information for a DataFrame."""
+        """Get detailed column information for a DataFrame.
+
+        Analyzes a DataFrame to provide detailed information about each column,
+        including data types, null counts, and sample values.
+
+        Args:
+            df: The DataFrame to analyze.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing column analysis with these columns:
+                - Column Name: Name of the column
+                - Type: Data type of the column
+                - Non-Null %: Percentage of non-null values
+                - Non-Null Count: Count of non-null values
+                - Null Count: Count of null values
+                - Sample Values: Example values from the column
+        """
         try:
             columns_df = pd.DataFrame(
                 {
@@ -123,7 +181,21 @@ class DataComparisonCore:
             return pd.DataFrame()
 
     def get_join_column_stats(self) -> List[Dict]:
-        """Get statistics for potential join columns."""
+        """Get statistics for potential join columns.
+
+        Analyzes columns present in both DataFrames to help users select
+        appropriate join keys. Provides statistics about uniqueness and null
+        values, and recommends columns suitable for joining.
+
+        Returns:
+            List[Dict]: List of dictionaries containing column statistics:
+                - Column: Column name
+                - Type: Data type
+                - Unique Values: Count and percentage for both files
+                - Nulls: Null count for both files
+                - Recommended: Indicator if column is recommended for joining
+                  (high uniqueness, no nulls)
+        """
         try:
             if not (self.df1 is not None and self.df2 is not None):
                 logger.warning(
@@ -186,7 +258,18 @@ class DataComparisonCore:
             return []
 
     def compare_data(self, join_columns: List[str]) -> Optional[datacompy.Compare]:
-        """Perform the comparison using specified join columns."""
+        """Perform the comparison using specified join columns.
+
+        Creates a DataCompy comparison object using the specified columns as join keys.
+        The comparison analyzes differences between the two DataFrames.
+
+        Args:
+            join_columns: List of column names to use as join keys.
+
+        Returns:
+            Optional[datacompy.Compare]: The comparison object if successful,
+                None if comparison could not be performed.
+        """
         try:
             if not (self.df1 is not None and self.df2 is not None):
                 logger.warning("Cannot compare data: one or both DataFrames are None")
@@ -206,7 +289,21 @@ class DataComparisonCore:
             return None
 
     def get_comparison_stats(self) -> Dict:
-        """Get comprehensive comparison statistics."""
+        """Get comprehensive comparison statistics.
+
+        Calculates detailed statistics about the comparison results, including
+        matching rows, unmatched rows, and match rates.
+
+        Returns:
+            Dict: Dictionary containing comparison statistics:
+                - rows_in_common: Number of matching rows
+                - unmatched_base: Number of rows only in base file
+                - unmatched_compare: Number of rows only in compare file
+                - match_rate: Percentage of matching rows
+                - total_base: Total rows in base file
+                - total_compare: Total rows in compare file
+                - merged_data: DataFrame containing all rows with match indicators
+        """
         try:
             if not self.comparison:
                 logger.warning(

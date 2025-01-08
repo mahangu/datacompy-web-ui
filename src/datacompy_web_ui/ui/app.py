@@ -1,4 +1,15 @@
-"""Streamlit UI for DataCompy Web UI."""
+"""Streamlit UI for DataCompy Web UI.
+
+This module provides the web-based user interface for the DataCompy Web UI application.
+It uses Streamlit to create an interactive interface for comparing data files,
+visualizing differences, and analyzing results.
+
+The UI is organized into several sections:
+- File upload and configuration
+- Data summary and column analysis
+- Join key selection
+- Comparison results visualization
+"""
 
 import warnings
 import streamlit as st
@@ -17,7 +28,11 @@ from datacompy_web_ui.core.comparison import DataComparisonCore
 
 
 def setup_page() -> None:
-    """Configure the Streamlit page settings and styling."""
+    """Configure the Streamlit page settings and styling.
+
+    Sets up the page configuration including title, icon, layout,
+    and loads custom CSS styles from the styles directory.
+    """
     st.set_page_config(
         page_title="DataCompy Web UI",
         page_icon="📊",
@@ -31,7 +46,11 @@ def setup_page() -> None:
 
 
 def render_header():
-    """Render the app header and description."""
+    """Render the app header and description.
+
+    Displays the application title and a brief description of its functionality
+    to help users understand how to use the tool.
+    """
     st.title("📊 Datacompy Web UI")
     st.markdown(
         """
@@ -42,12 +61,33 @@ def render_header():
 
 
 def calculate_height(df, min_height=200, max_height=600, row_height=35):
-    """Calculate a reasonable height for a dataframe display."""
+    """Calculate a reasonable height for a dataframe display.
+
+    Determines an appropriate height for displaying a DataFrame in the UI,
+    taking into account the number of rows while staying within reasonable bounds.
+
+    Args:
+        df: The DataFrame to calculate height for.
+        min_height (int): Minimum height in pixels (default: 200).
+        max_height (int): Maximum height in pixels (default: 600).
+        row_height (int): Height per row in pixels (default: 35).
+
+    Returns:
+        int: The calculated height in pixels.
+    """
     return min(max(min_height, (len(df) + 1) * row_height), max_height)
 
 
 def run_app():
-    """Run the Streamlit application."""
+    """Run the Streamlit application.
+
+    Main function that orchestrates the UI flow:
+    1. Sets up the page and renders the header
+    2. Handles file uploads and configuration
+    3. Displays file summaries and column analysis
+    4. Manages join key selection
+    5. Shows comparison results
+    """
     setup_page()
     render_header()
 
@@ -175,7 +215,17 @@ def run_app():
 
 
 def display_comparison_results(comparison: DataComparisonCore):
-    """Display the comparison results."""
+    """Display the comparison results.
+
+    Creates a comprehensive visualization of the comparison results including:
+    - High-level metrics (match rate, matching rows/columns)
+    - Column analysis (common columns, unique columns)
+    - Row-level differences and sample mismatches
+    - Detailed analysis expandable sections
+
+    Args:
+        comparison: The DataComparisonCore instance containing comparison results.
+    """
     if not comparison or not comparison.comparison:
         st.error("No comparison has been performed yet.")
         return
