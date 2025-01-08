@@ -5,18 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "datacompy-web-ui"
 version = "0.1.0"
-description = "A web-based UI for DataCompy CSV comparison"
+description = "A web-based UI for comparing CSV and Excel files using DataCompy"
 authors = [
     { name = "Mahangu Weerasinghe", email = "mahangu@gmail.com" }
 ]
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "GPL-2.0" }
 requires-python = ">=3.11"
+keywords = ["data", "comparison", "csv", "excel", "datacompy", "streamlit", "data-analysis"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Office/Business",
+    "Framework :: Streamlit",
+    "Operating System :: OS Independent",
 ]
 dependencies = [
     "streamlit>=1.41.0",
@@ -29,12 +37,15 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "black>=24.10.0",
-    "pytest>=8.3.4",
+    "black>=24.2.0",
+    "pytest>=8.0.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/mahangu/datacompy-web-ui"
+Documentation = "https://github.com/mahangu/datacompy-web-ui#readme"
+Repository = "https://github.com/mahangu/datacompy-web-ui.git"
+"Bug Tracker" = "https://github.com/mahangu/datacompy-web-ui/issues"
 
 [project.scripts]
 datacompy-web-ui = "datacompy_web_ui.main:main"
@@ -45,7 +56,10 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+datacompy_web_ui = ["ui/styles/*.css"]
+
 [tool.black]
 line-length = 88
 target-version = ['py311']
-include = '\.pyi?$' 
+include = '\.pyi?$'
