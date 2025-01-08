@@ -1,5 +1,7 @@
 # Datacompy Web UI
 
+[![Tests](https://github.com/mahangu/datacompy-web-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/mahangu/datacompy-web-ui/actions/workflows/tests.yml)
+
 A web interface for comparing CSV and Excel files using [DataCompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
 
 ![DataCompy Web UI Screenshot](docs/images/datacompy-web-ui-screenshot.png)
@@ -118,4 +120,4 @@ make clean
 
 ## License
 
-This project is licensed under the GNU General Public License v2 (GPLv2). 
+This project is licensed under the GNU General Public License v2 (GPLv2).
