@@ -27,6 +27,12 @@ dependencies = [
     "openpyxl>=3.1.5",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "black>=24.10.0",
+    "pytest>=8.3.4",
+]
+
 [project.urls]
 Homepage = "https://github.com/mahangu/datacompy-web-ui"
 
@@ -37,4 +43,9 @@ datacompy-web-ui = "datacompy_web_ui.main:main"
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
-where = ["src"] 
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$' 

@@ -82,11 +82,23 @@ make run
 make install
 ```
 
+### Code Formatting
+
+```bash
+# Format code using Black
+make format
+
+# Check if code formatting is correct (without making changes)
+make check
+```
+
 ### Running Tests
 
 ```bash
 make test
 ```
+
+Note: Tests will fail if code formatting is incorrect. Run `make format` to fix formatting issues.
 
 ### Clean Build Files
 
@@ -98,9 +110,11 @@ make clean
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. Format your code (`make format`)
+4. Ensure tests pass (`make test`)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
 ## License
 

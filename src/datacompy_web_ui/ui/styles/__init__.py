@@ -1,1 +1,1 @@
-"""Package initialization for UI styles.""" 
+"""Package initialization for UI styles."""
