@@ -8,6 +8,7 @@ from typing import Optional, Dict, Any
 import pandas as pd
 from pathlib import Path
 import logging
+import io
 
 logger = logging.getLogger(__name__)
 
@@ -150,6 +151,115 @@ class ExcelHandler(FileHandler):
             raise
 
 
+class JSONHandler(FileHandler):
+    """Handler for JSON files.
+
+    Handles JSON files using pandas read_json.
+    """
+
+    supported_extensions = {".json"}
+
+    def read_data(self, file, **options) -> pd.DataFrame:
+        """Read data from a JSON file.
+
+        Args:
+            file: A file-like object containing JSON data.
+            **options: Additional options passed to pd.read_json.
+
+        Returns:
+            pd.DataFrame: The data read from the JSON file.
+
+        Raises:
+            Exception: If there's an error reading the JSON file.
+        """
+        try:
+            import json
+
+            file.seek(0)  # Reset file pointer
+            json_data = json.load(file)
+
+            # Special case: Dict with lists of equal length (array-like data)
+            if (
+                isinstance(json_data, dict)
+                and all(isinstance(v, list) for v in json_data.values())
+                and len(set(len(v) for v in json_data.values())) == 1
+            ):
+                # This is the case like {"a": [1, 3], "b": [2, 4]} - use default pandas behavior
+                file.seek(0)
+                return pd.read_json(file)
+
+            # Case 1: Scalar value object (flat dictionary)
+            if isinstance(json_data, dict) and not any(
+                isinstance(v, (list, dict)) for v in json_data.values()
+            ):
+                # Convert to a single-row DataFrame
+                return pd.DataFrame([json_data])
+
+            # Case 2: List of scalar dictionaries
+            elif isinstance(json_data, list) and all(
+                isinstance(item, dict) for item in json_data
+            ):
+                return pd.DataFrame(json_data)
+
+            # Case 3: List of scalar values
+            elif isinstance(json_data, list) and all(
+                not isinstance(item, (dict, list)) for item in json_data
+            ):
+                # Convert to a single-column DataFrame
+                return pd.DataFrame({"value": json_data})
+
+            # Case 4: Dictionary with nested structures
+            elif isinstance(json_data, dict):
+                # Try to normalize nested JSON to a flat structure
+                try:
+                    return pd.json_normalize(json_data)
+                except:
+                    # If normalization fails, fallback to default pandas behavior
+                    file.seek(0)
+                    return pd.read_json(file)
+
+            # Default case - let pandas handle it
+            file.seek(0)
+            return pd.read_json(file)
+        except Exception as e:
+            logger.error(f"Error reading JSON: {str(e)}")
+            raise
+
+
+class ParquetHandler(FileHandler):
+    """Handler for Parquet files.
+
+    Handles Apache Parquet files using pandas read_parquet.
+    """
+
+    supported_extensions = {".parquet", ".pq"}
+
+    def read_data(self, file, **options) -> pd.DataFrame:
+        """Read data from a Parquet file.
+
+        Args:
+            file: A file-like object containing Parquet data.
+            **options: Additional options passed to pd.read_parquet.
+
+        Returns:
+            pd.DataFrame: The data read from the Parquet file.
+
+        Raises:
+            Exception: If there's an error reading the Parquet file.
+        """
+        try:
+            # For parquet, we need to handle BytesIO objects specially
+            # as pd.read_parquet expects a path or file-like object with specific methods
+            if isinstance(file, io.BytesIO):
+                file.seek(0)  # Reset file pointer
+                return pd.read_parquet(file)
+            else:
+                return pd.read_parquet(file.name)
+        except Exception as e:
+            logger.error(f"Error reading Parquet: {str(e)}")
+            raise
+
+
 def get_handler(file) -> Optional[FileHandler]:
     """Get appropriate handler for a file based on its extension.
 
@@ -162,7 +272,7 @@ def get_handler(file) -> Optional[FileHandler]:
         Optional[FileHandler]: An instance of the appropriate handler class,
             or None if no suitable handler is found.
     """
-    handlers = [CSVHandler(), ExcelHandler()]
+    handlers = [CSVHandler(), ExcelHandler(), JSONHandler(), ParquetHandler()]
     for handler in handlers:
         if handler.can_handle(file):
             logger.debug(f"Using handler {handler.__class__.__name__} for {file.name}")

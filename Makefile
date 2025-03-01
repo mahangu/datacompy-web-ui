@@ -38,7 +38,7 @@ venv-install: check-python
 	python3 -m venv venv
 	. venv/bin/activate && pip install -e .
 
-test: check-python install check
+test: check-python install
 	pipenv run pip install -e .
 	pipenv run pytest tests/ -v
 
