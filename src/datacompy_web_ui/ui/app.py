@@ -54,7 +54,7 @@ def render_header():
     st.title("📊 Datacompy Web UI")
     st.markdown(
         """
-    Compare CSV, Excel, JSON, and Parquet files and analyze their differences using DataCompy.
+    Compare CSV, TSV, Excel, JSON, and Parquet files and analyze their differences using DataCompy.
     Upload your files below and select the columns to use as join keys.
     """
     )
@@ -100,7 +100,7 @@ def run_app():
         st.subheader("📄 Base File (File 1)")
         file1 = st.file_uploader(
             "Choose your base file",
-            type=["csv", "xlsx", "xls", "json", "parquet", "pq"],
+            type=["csv", "tsv", "tab", "xlsx", "xls", "json", "parquet", "pq"],
             key="file1",
         )
         file1_options = {}
@@ -115,7 +115,7 @@ def run_app():
         st.subheader("📄 Compare File (File 2)")
         file2 = st.file_uploader(
             "Choose your comparison file",
-            type=["csv", "xlsx", "xls", "json", "parquet", "pq"],
+            type=["csv", "tsv", "tab", "xlsx", "xls", "json", "parquet", "pq"],
             key="file2",
         )
         file2_options = {}

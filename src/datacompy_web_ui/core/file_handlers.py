@@ -91,9 +91,41 @@ class CSVHandler(FileHandler):
         """
         try:
             file.seek(0)  # Reset file pointer
-            return pd.read_csv(file)
+            return pd.read_csv(file, **options)
         except Exception as e:
             logger.error(f"Error reading CSV: {str(e)}")
+            raise
+
+
+class TSVHandler(FileHandler):
+    """Handler for TSV files.
+
+    A handler for Tab-Separated Values files that uses pandas read_csv with tab delimiter.
+    """
+
+    supported_extensions = {".tsv", ".tab"}
+
+    def read_data(self, file, **options) -> pd.DataFrame:
+        """Read data from a TSV file.
+
+        Args:
+            file: A file-like object containing TSV data.
+            **options: Additional options passed to pd.read_csv.
+
+        Returns:
+            pd.DataFrame: The data read from the TSV file.
+
+        Raises:
+            Exception: If there's an error reading the TSV file.
+        """
+        try:
+            file.seek(0)  # Reset file pointer
+            # Set delimiter to tab, but allow override if specified in options
+            tsv_options = {"delimiter": "\t"}
+            tsv_options.update(options)
+            return pd.read_csv(file, **tsv_options)
+        except Exception as e:
+            logger.error(f"Error reading TSV: {str(e)}")
             raise
 
 
@@ -272,7 +304,13 @@ def get_handler(file) -> Optional[FileHandler]:
         Optional[FileHandler]: An instance of the appropriate handler class,
             or None if no suitable handler is found.
     """
-    handlers = [CSVHandler(), ExcelHandler(), JSONHandler(), ParquetHandler()]
+    handlers = [
+        CSVHandler(),
+        TSVHandler(),
+        ExcelHandler(),
+        JSONHandler(),
+        ParquetHandler(),
+    ]
     for handler in handlers:
         if handler.can_handle(file):
             logger.debug(f"Using handler {handler.__class__.__name__} for {file.name}")

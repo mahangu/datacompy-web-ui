@@ -7,6 +7,7 @@ import openpyxl
 from datacompy_web_ui.core.file_handlers import (
     FileHandler,
     CSVHandler,
+    TSVHandler,
     ExcelHandler,
     JSONHandler,
     ParquetHandler,
@@ -36,6 +37,33 @@ def test_csv_handler():
     file = BytesIO(csv_data.encode())
     file.name = "test.csv"
     df = handler.read_data(file)
+    assert isinstance(df, pd.DataFrame)
+    assert df.shape == (2, 2)
+    # Test options
+    assert handler.get_options(None) == {}
+
+
+def test_tsv_handler():
+    handler = TSVHandler()
+    # Test file type detection
+    assert handler.can_handle(MockFileName("test.tsv"))
+    assert handler.can_handle(MockFileName("data.tab"))
+    assert not handler.can_handle(MockFileName("test.csv"))
+    # Test reading TSV data
+    tsv_data = "a\tb\n1\t2\n3\t4"
+    file = BytesIO(tsv_data.encode())
+    file.name = "test.tsv"
+    df = handler.read_data(file)
+    assert isinstance(df, pd.DataFrame)
+    assert df.shape == (2, 2)
+    assert list(df.columns) == ["a", "b"]
+    assert df.iloc[0, 0] == 1
+    assert df.iloc[1, 1] == 4
+    # Test options - passing custom options
+    tsv_data = "a|b\n1|2\n3|4"
+    file = BytesIO(tsv_data.encode())
+    file.name = "test.tsv"
+    df = handler.read_data(file, delimiter="|")
     assert isinstance(df, pd.DataFrame)
     assert df.shape == (2, 2)
     # Test options
@@ -178,6 +206,15 @@ def test_get_handler():
     csv_file = MockFileName("test.csv")
     handler = get_handler(csv_file)
     assert isinstance(handler, CSVHandler)
+
+    # Test TSV handler
+    tsv_file = MockFileName("test.tsv")
+    handler = get_handler(tsv_file)
+    assert isinstance(handler, TSVHandler)
+
+    tab_file = MockFileName("data.tab")
+    handler = get_handler(tab_file)
+    assert isinstance(handler, TSVHandler)
 
     # Test Excel handler
     excel_file = MockFileName("test.xlsx")
