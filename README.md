@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/mahangu/datacompy-web-ui/actions/workflows/tests.yml/badge.svg)](https://github.com/mahangu/datacompy-web-ui/actions/workflows/tests.yml)
 
-A web interface for comparing CSV and Excel files using [DataCompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
+A web interface for comparing CSV, TSV, JSON, Parquet, and Excel files using [DataCompy](https://capitalone.github.io/datacompy/). Built with [Streamlit](https://streamlit.io/).
 
 ![DataCompy Web UI Screenshot](docs/images/datacompy-web-ui-screenshot.png)
 
